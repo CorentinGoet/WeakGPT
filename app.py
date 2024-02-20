@@ -1,4 +1,5 @@
 import streamlit as st
+from langchain_backend import llm_request
 
 def main():
     st.set_page_config(
@@ -24,7 +25,7 @@ def main():
         # add to history
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        response = f"Echo: {prompt}"
+        response = llm_request(st.session_state.messages.copy())
         with st.chat_message("assistant"):
             st.markdown(response)
             # for chat-gpt style use st.write_stream
