@@ -10,6 +10,8 @@ This chatbot is built in Python using:
 
 ### LLM
 
+**Warning**: Ollama can only run on Linux and MacOS for now, this will not work on Windows!
+
 Install Ollama:
 
 ```bash
