@@ -18,6 +18,7 @@ def llm_request(chat_history: list):
         # Instanciate model
         llm = Ollama(model="mistral",
                 temperature=0.5,
+                num_gpu=1,
                 #callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
                 )
 
