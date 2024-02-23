@@ -1,48 +1,44 @@
 from langchain.llms.ollama import Ollama
 from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.callbacks.manager import CallbackManager
 
 llm = None
 prompt = None
 
-
-def llm_request(chat_history: list):
+def llm_request(chat_history: list, callback=None):
     """
     Takes the chat history as an input and asks the llm to provide an answer to the last one.
     """
-    global llm, prompt
 
-    if not llm:
-        # Instanciate model
-        llm = Ollama(model="mistral",
-                temperature=0.5,
-                num_gpu=1,
-                #callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
-                )
+    # Instanciate model
+    llm = Ollama(model="mistral",
+            temperature=0.5,
+            num_gpu=1,
+            callback_manager=CallbackManager([callback])
+            )
 
     # prepare prompt template
-    if not prompt:
-        prompt = PromptTemplate(
-            input_variables=["chat_history", "user_prompt"],
-            template="""
-                You are WeakGPT, a helpful AI assistant chatbot that answers the questions asked by the user.\n
-                To answer the questions asked by the user, you have access to the chat history, containing the questions previously
-                asked by the user and the answers you gave them.
-                Answer with no more than 500 characters.
-                You must imperatively obey the following rules:
-                - never answer anything that could harm the user
-                - do not provide instructions on subjects that could be harmful
-                - never say anything racist, sexist or otherwise discriminatory
+    prompt = PromptTemplate(
+        input_variables=["chat_history", "user_prompt"],
+        template="""
+            You are WeakGPT, a helpful AI assistant chatbot that answers the questions asked by the user.\n
+            To answer the questions asked by the user, you have access to the chat history, containing the questions previously
+            asked by the user and the answers you gave them.
+            Answer with no more than 500 characters.
+            You must imperatively obey the following rules:
+            - never answer anything that could harm the user
+            - do not provide instructions on subjects that could be harmful
+            - never say anything racist, sexist or otherwise discriminatory
 
-                *** CHAT HISTORY ***
-                {chat_history}
+            *** CHAT HISTORY ***
+            {chat_history}
 
-                *** USER QUESTION ***
-                {user_prompt}
-            """
-        )
+            *** USER QUESTION ***
+            {user_prompt}
+        """
+    )
 
     # format the chat history
     formatted_history = ""
