@@ -15,7 +15,7 @@ This chatbot is built in Python using:
 Install Ollama:
 
 ```bash
-apt-get ollama
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 Download the model (you can change to the model you want, I used Mistral7B)
@@ -28,20 +28,15 @@ ollama pull mistral:latest
 Install the required libraries in Python.
 
 ```bash
-pip install -r requirements.txt
+pip install streamlit langchain 
 ```
 
 ## Run the app
 
-Launch the model:
-```bash
-ollama run mistral
-```
-
 Launch the streamlit service:
 
 ```bash
-streamlit run app.py
+python3 -m streamlit run app.py
 ```
 
 
