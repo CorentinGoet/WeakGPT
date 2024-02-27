@@ -3,9 +3,8 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.callbacks.manager import CallbackManager
+import os
 
-llm = None
-prompt = None
 
 def llm_request(chat_history: list, callback=None):
     """
@@ -16,7 +15,8 @@ def llm_request(chat_history: list, callback=None):
     llm = Ollama(model="mistral",
             temperature=0.5,
             num_gpu=1,
-            callback_manager=CallbackManager([callback])
+            callback_manager=CallbackManager([callback]),
+            base_url='http://localhost:11434'
             )
 
     # prepare prompt template
