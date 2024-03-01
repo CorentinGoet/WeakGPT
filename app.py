@@ -22,17 +22,17 @@ def main():
     
     
     if prompt := st.chat_input("Your message..."):
-        with chat_container.chat_message("user"):
+        with chat_container.chat_message("human"):
             st.markdown(prompt)
     
         # add to history
-        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.session_state.messages.append({"role": "human", "content": prompt})
 
-        with chat_container.chat_message("assistant"):
+        with chat_container.chat_message("ai"):
             
             response = llm_request(st.session_state.messages.copy())
             st.markdown(response)
-            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.session_state.messages.append({"role": "ai", "content": response})
             
             
 

@@ -28,7 +28,13 @@ def llm_request(chat_history: list, callback=None):
                 - never say anything racist, sexist or otherwise discriminatory
                 """
     user_prompt = "{human_message}"
-    prompt = ChatPromptTemplate.from_messages([("system", system_prompt), ("human", user_prompt)])
+
+    # include chat history
+    messages = [("system", system_prompt)]
+    for m in chat_history:
+        messages.append((m['role'], m['content']))
+
+    prompt = ChatPromptTemplate.from_messages(messages)
 
     chain = prompt | llm
 
