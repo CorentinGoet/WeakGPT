@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain_backend import llm_request
-from langchain_community.callbacks import StreamlitCallbackHandler
+
 
 def main():
     st.set_page_config(
@@ -19,9 +19,6 @@ def main():
     for message in st.session_state.messages:
         with chat_container.chat_message(message["role"]):
             st.markdown(message["content"]) 
-     
-    
-    thinking_container = st.empty()
     
     
     if prompt := st.chat_input("Your message..."):
@@ -33,10 +30,10 @@ def main():
 
         with chat_container.chat_message("assistant"):
             
-            response = llm_request(st.session_state.messages.copy(), StreamlitCallbackHandler(thinking_container))
+            response = llm_request(st.session_state.messages.copy())
             st.markdown(response)
             st.session_state.messages.append({"role": "assistant", "content": response})
-            thinking_container.empty()
+            
             
 
 if __name__ == '__main__':
